@@ -27,6 +27,11 @@ jobs:
           docker build -t ${{ secrets.AZURE_REGISTRY_USERNAME }}.azurecr.io/fastapi-app:latest .
           docker push ${{ secrets.AZURE_REGISTRY_USERNAME }}.azurecr.io/fastapi-app:latest
 
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          
       - name: Restart Azure App Service
         uses: azure/webapps-deploy@v2
         with:
