@@ -10,8 +10,8 @@ COPY . /app
 #install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-#expose the port FastAPI will run on
-EXPOSE 8000
+#expose the port FastAPI will run on. 5000 for heroku
+EXPOSE 5000
 
 #install Nginx
 RUN apt-get update && apt-get install -y nginx
