@@ -1,30 +1,34 @@
-#use official lightweight Python image
-FROM python:3.9-slim
+# Stage 1: Build the FastAPI application image
+FROM python:3.9-slim AS build
 
-#set the working directory inside the container
+# Set environment variables
+ENV PYTHONUNBUFFERED=1
+ENV PORT=8000
+
+# Set the working directory inside the container
 WORKDIR /app
 
-#copy the current directory contents into the container at /app
-COPY . /app
-
-#install dependencies
+# Install required dependencies
+COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
 
-#expose the port FastAPI will run on. 5000 for heroku
-EXPOSE 5000
+# Copy the FastAPI app files into the container
+COPY . /app/
 
-#install Nginx
-RUN apt-get update && apt-get install -y nginx
+# Stage 2: Set up the Nginx reverse proxy
+FROM nginx:alpine
 
-#copy the Nginx configuration
+# Copy the Nginx configuration file into the container
 COPY nginx.conf /etc/nginx/nginx.conf
 
-#expose port 80 for Nginx
+# Expose the required port (for FastAPI and Nginx)
 EXPOSE 80
 
-#copy the start script
-COPY start.sh /start.sh
-RUN chmod +x /start.sh
+# Copy the FastAPI app and install dependencies
+COPY --from=build /app /app
 
-#set the command to run both Nginx and Uvicorn
-CMD ["/start.sh"]
+# Install dependencies for running FastAPI via Uvicorn
+RUN pip install --no-cache-dir uvicorn
+
+# Start both Nginx and FastAPI (Uvicorn)
+CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port 8000 & nginx -g 'daemon off;'"]
