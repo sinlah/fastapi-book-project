@@ -22,4 +22,4 @@ COPY nginx.conf /etc/nginx/sites-available/default
 EXPOSE 80
 
 # Start script
-CMD service nginx start && uvicorn main:app --host 127.0.0.1 --port 8000
+CMD service nginx start && uvicorn main:app --host 0.0.0.0 --port 8000
