@@ -28,7 +28,7 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: ${{ secrets.AZURE_REGISTRY_NAME }}.azurecr.io/fastapi-app:latest
+        tags: ${{ secrets.AZURE_REGISTRY_USERNAME }}.azurecr.io/fastapi-app:latest
 
     - name: Deploy Docker Compose to Azure Web App
       uses: azure/webapps-deploy@v2
