@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  app:
+    image: ${{ secrets.AZURE_REGISTRY_USERNAME }}.azurecr.io/fastapi-app:latest
+    container_name: fastapi-app
+    restart: always
+    ports:
+      - "8000:8000"
+
+  nginx:
+    image: nginx:latest
+    container_name: fastapi-nginx
+    restart: always
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "80:80"
+    depends_on:
+      - app
