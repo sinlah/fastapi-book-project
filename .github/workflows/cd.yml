@@ -36,6 +36,6 @@ jobs:
             git reset --hard origin/main
             git pull origin main
 
-            # restart the Docker container
+            #restart the Docker container
             docker-compose down
             docker-compose up -d --build
