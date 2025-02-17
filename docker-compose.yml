@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  app:
+  fastapi-app:
     build: .
     image: fastapi:latest
     container_name: fastapi-app
@@ -15,4 +15,4 @@ services:
     ports:
       - "80:80"
     depends_on:
-      - app
+      - fastapi-app
