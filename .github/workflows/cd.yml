@@ -16,19 +16,19 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            # Update package index and install dependencies
+            #update package index and install dependencies
             sudo apt-get update -y
             sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
 
-            # Add Docker's official GPG key
+            #add Docker's official GPG key
             curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
             sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 
-            # Install Docker
+            #install Docker
             sudo apt-get update -y
             sudo apt-get install -y docker-ce docker-ce-cli containerd.io
 
-            # Add the SSH user to the Docker group
+            #add the SSH user to the Docker group
             sudo usermod -aG docker ${{ secrets.EC2_USER}}
 
             cd /home/ubuntu/fastapi-book-project
@@ -36,6 +36,6 @@ jobs:
             git reset --hard origin/main
             git pull origin main
 
-            # Restart the Docker container
+            #restart the Docker container
             docker-compose down
             docker-compose up -d --build
