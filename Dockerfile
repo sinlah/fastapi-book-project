@@ -1,4 +1,4 @@
-  #use an official lightweight Python image
+  #use an official lightweight python image
   FROM python:3.9-slim
 
   #set the working directory
