@@ -33,5 +33,5 @@ jobs:
     - name: Deploy Docker Compose to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
-        app-name: fastapi-app-dev
+        app-name: fastapinginx
         compose-file: ./docker-compose.yml
